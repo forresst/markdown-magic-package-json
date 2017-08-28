@@ -1,0 +1,51 @@
+{
+	"name": "markdown-magic-package-json",
+	"version": "0.1.0",
+	"description": "Add the package.json properties to markdown files via markdown-magic",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/forresst/markdown-magic-package-json.git"
+	},
+	"bugs": {
+		"url": "https://github.com/forresst/markdown-magic-package-json/issues"
+	},
+	"homepage": "https://github.com/forresst/markdown-magic-package-json#readme",
+	"author": {
+		"name": "Stéphane Reynaud",
+		"url": "github.com/forresst"
+	},
+	"files": [
+		"index.js"
+	],
+	"engines": {
+		"node": ">=4"
+	},
+	"scripts": {
+		"test": "xo && nyc ava",
+		"precommit": "node example.js"
+	},
+	"keywords": [
+		"markdown-magic",
+		"package.json",
+		"plugin"
+	],
+	"dependencies": {
+		"read-pkg-up": "^2.0.0"
+	},
+	"devDependencies": {
+		"ava": "^0.20.0",
+		"codecov": "^2.2.0",
+		"husky": "^0.14.3",
+		"markdown-magic": "^0.1.18",
+		"nyc": "^11.0.0",
+		"rimraf": "^2.6.1",
+		"xo": "^0.18.2"
+	},
+	"nyc": {
+		"reporter": [
+			"lcov",
+			"text"
+		]
+	}
+}

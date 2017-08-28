@@ -1,0 +1,3 @@
+<!-- AUTO-GENERATED-CONTENT:START (PKGJSON:prop=foo&unknownTxt=TODO) -->
+
+<!-- AUTO-GENERATED-CONTENT:END -->

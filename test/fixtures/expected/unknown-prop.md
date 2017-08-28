@@ -1,0 +1,3 @@
+<!-- AUTO-GENERATED-CONTENT:START (PKGJSON:prop=foo) -->
+undefined
+<!-- AUTO-GENERATED-CONTENT:END -->

@@ -1,0 +1,3 @@
+<!-- AUTO-GENERATED-CONTENT:START (PKGJSON:prop=repository.type) -->
+
+<!-- AUTO-GENERATED-CONTENT:END -->

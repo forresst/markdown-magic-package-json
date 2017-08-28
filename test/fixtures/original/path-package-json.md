@@ -1,0 +1,3 @@
+<!-- AUTO-GENERATED-CONTENT:START (PKGJSON:prop=name&pkg=./test) -->
+
+<!-- AUTO-GENERATED-CONTENT:END -->

@@ -1,0 +1,3 @@
+<!-- AUTO-GENERATED-CONTENT:START (PKGJSON:prop=repository.type) -->
+git
+<!-- AUTO-GENERATED-CONTENT:END -->
