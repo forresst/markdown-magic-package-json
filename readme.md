@@ -2,6 +2,11 @@
 # markdown-magic-package-json
 <!-- AUTO-GENERATED-CONTENT:END -->
 
+[![Build Status](https://travis-ci.org/forresst/markdown-magic-package-json.svg?branch=master)](https://travis-ci.org/forresst/markdown-magic-package-json)
+[![Build status](https://ci.appveyor.com/api/projects/status/wya3soypuahm6y6s?svg=true)](https://ci.appveyor.com/project/forresst/markdown-magic-package-json)
+[![Coverage Status](https://coveralls.io/repos/github/forresst/markdown-magic-package-json/badge.svg)](https://coveralls.io/github/forresst/markdown-magic-package-json)
+[![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
+
 > Add the `package.json` properties to markdown files via [markdown-magic](https://github.com/DavidWells/markdown-magic)
 
 <!-- AUTO-GENERATED-CONTENT:START (TOC) -->
@@ -106,14 +111,14 @@ git
 To the layout, use characters for new line (`/n`) or tabulation (`\t`):
 
 ```markdown
-<!-- AUTO-GENERATED-CONTENT:START (PKGJSON:prop=name&before=# Hello World\n\nThe package: &after=\n\n\tIt is useful!\n\nVery useful!!!cd ) -->
+<!-- AUTO-GENERATED-CONTENT:START (PKGJSON:prop=name&before=# Hello World\n\nThe package: &after=\n\n\tIt is useful!\n\nVery useful!!!) -->
 # Hello World
 
 The package: markdown-magic-package-json
 
 	It is useful!
 
-Very useful!!!cd 
+Very useful!!!
 <!-- AUTO-GENERATED-CONTENT:END -->
 ```
 
