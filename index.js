@@ -1,27 +1,44 @@
 'use strict';
 
+const fs = require('fs');
 const path = require('path');
-const readPkgUp = require('read-pkg-up');
+const findup = require('findup');
 
-function deepAccess(obj, key) {
+const findPkg = dir => {
+	try {
+		return path.join(findup.sync(dir, 'package.json'), 'package.json');
+	} catch (err) {
+		return undefined;
+	}
+};
+
+const getPackage = options => {
+	let pkgPath;
+	if (options.pkg) {
+		pkgPath = findPkg(path.resolve(process.cwd(), options.pkg));
+	} else {
+		pkgPath = findPkg(process.cwd());
+	}
+
+	let contentJson = {};
+	if (pkgPath) {
+		contentJson = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+	}
+	return contentJson;
+};
+
+const deepAccess = (obj, key) => {
 	return key.split('.').reduce((nestedObject, key) => {
 		if (nestedObject && key in nestedObject) {
 			return nestedObject[key];
 		}
 		return undefined;
 	}, obj);
-}
+};
 
-module.exports = function (content, options, config) {
+module.exports = (content, options, config) => {
 	if (!options) {
 		options = {};
-	}
-
-	const optReadPkg = {
-		cwd: ''
-	};
-	if (options.pkg) {
-		optReadPkg.cwd = path.resolve(path.dirname(config.originalPath), options.pkg);
 	}
 
 	if (!options.before) {
@@ -34,8 +51,8 @@ module.exports = function (content, options, config) {
 
 	let prop;
 	if (options.prop) {
-		const result = readPkgUp.sync(optReadPkg);
-		prop = deepAccess(result.pkg, options.prop);
+		const result = getPackage(options, config);
+		prop = deepAccess(result, options.prop);
 	}
 
 	if (prop === undefined && options.unknownTxt) {
@@ -44,9 +61,9 @@ module.exports = function (content, options, config) {
 
 	const updatedContent = `${options.before}${prop}${options.after}`;
 	return updatedContent
-	.replace(/\\n/g, '\n')
-	.replace(/\\t/g, '\t')
-	.replace(/\\r/g, '\r')
-	.replace(/\\b/g, '\b')
-	.replace(/\\f/g, '\f');
+		.replace(/\\n/g, '\n')
+		.replace(/\\t/g, '\t')
+		.replace(/\\r/g, '\r')
+		.replace(/\\b/g, '\b')
+		.replace(/\\f/g, '\f');
 };

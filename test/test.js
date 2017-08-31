@@ -75,4 +75,8 @@ testCase('With after option', 'after.md', 'name should be followed by after opti
 
 testCase('With option prop=name&pkg=./test/fixtures', 'path-package-json.md', 'name should be this fixture package.json');
 
+testCase('With option prop=name&pkg=./test', 'unknown-path-package-json.md', 'name should be undefined');
+
+testCase('With option prop=name&pkg=./test', 'go-to-package-json.md', 'name should be this root package.json');
+
 testCase('With news lines', 'news-lines.md', 'new lines should be displayed');
