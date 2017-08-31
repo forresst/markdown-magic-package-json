@@ -53,7 +53,7 @@ markdownMagic(markdownPath, config);
 * **prop** - any property in package.json (like `name`, `version`, `scripts.test`, ...)
 * **before** (empty by default) - string to add **before** prop
 * **after** (empty by default) - string to add **after** prop
-* **pkg** (closest `package.json` by default) - `package.json` path. If the path is incorrect, the plugin take closest `package.json`
+* **pkg** (`package.json` in ancestor's dir by default) - `package.json` path. If the path is incorrect, the plugin find `package.json` in ancestor's dir.
 * **UnknownTxt** (undefined by default) - string to add if the `prop` is unknown
 
 ## Usage in markdown
