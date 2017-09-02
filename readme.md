@@ -53,7 +53,7 @@ markdownMagic(markdownPath, config);
 * **prop** - any property in package.json (like `name`, `version`, `scripts.test`, ...)
 * **before** (empty by default) - string to add **before** prop
 * **after** (empty by default) - string to add **after** prop
-* **pkg** (`package.json` in ancestor's dir by default) - `package.json` path. If the path is incorrect, the plugin find `package.json` in ancestor's dir.
+* **pkg** (`package.json` in ancestor's dir by default) - `package.json` path. If the path is incorrect, the plugin find `package.json` in ancestor's dir
 * **UnknownTxt** (undefined by default) - string to add if the `prop` is unknown
 
 ## Usage in markdown
@@ -108,7 +108,7 @@ git
 
 ### With news lines and tabulations
 
-To the layout, use characters for new line (`/n`) or tabulation (`\t`):
+To the layout, use characters for new line (`\n`) or tabulation (`\t`):
 
 ```markdown
 <!-- AUTO-GENERATED-CONTENT:START (PKGJSON:prop=name&before=# Hello World\n\nThe package: &after=\n\n\tIt is useful!\n\nVery useful!!!) -->
