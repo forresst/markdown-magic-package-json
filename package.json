@@ -1,6 +1,6 @@
 {
 	"name": "markdown-magic-package-json",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Add the package.json properties to markdown files via markdown-magic",
 	"license": "MIT",
 	"repository": {

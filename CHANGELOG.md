@@ -1,3 +1,12 @@
+<a name="1.0.1"></a>
+## [1.0.1](https://github.com/forresst/markdown-magic-package-json/compare/1.0.0...1.0.1) (2017-09-02)
+
+### Docs
+
+* Improve readme
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/forresst/markdown-magic-package-json/compare/0.1.0...1.0.0) (2017-09-01)
 
