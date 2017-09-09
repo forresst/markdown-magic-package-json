@@ -98,7 +98,7 @@ Please note in this case the value unknown is replaced by `undefined`. You can c
 
 ### Deep property
 
-To retrieve a deep property (for example `repository.git`):
+To retrieve a deep property (for example `repository.type`):
 
 ```markdown
 <!-- AUTO-GENERATED-CONTENT:START (PKGJSON:prop=repository.type) -->
