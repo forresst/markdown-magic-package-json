@@ -5,48 +5,60 @@ import test from 'ava';
 import markdownMagic from 'markdown-magic';
 
 const outputDir = path.join(__dirname, 'fixtures', 'output');
+const originalDir = path.join(__dirname, 'fixtures', 'original');
+const expectedDir = path.join(__dirname, 'fixtures', 'expected');
 
-const testCase = (testTxt, fileName, testMsg) => {
-	test(testTxt, t => {
-		const config = {
-			outputDir,
-			transforms: {
-				PKGJSON: require('../index')
-			}
-		};
+// Macro testFile (see macro with AVA)
+const testFile = (t, fileName, testMsg) => {
+	const config = {
+		outputDir,
+		transforms: {
+			PKGJSON: require('../index')
+		}
+	};
 
-		markdownMagic(path.join(__dirname, 'fixtures', 'original', fileName), config, (err, data) => {
-			if (err) {
-				console.log(err);
-			}
-			const expectedContent = fs.readFileSync(path.join(__dirname, 'fixtures', 'expected', fileName), 'utf8');
+	markdownMagic(path.join(originalDir, fileName), config, (err, data) => {
+		if (err) {
+			t.fail(err);
+		}
+		try {
+			const expectedContent = fs.readFileSync(path.join(expectedDir, fileName), 'utf8');
 			t.is(data[0].outputContent, expectedContent, testMsg);
-		});
+		} catch (err) {
+			if (err.code === 'ENOENT') {
+				t.fail(`File ${fileName} not found in ${expectedDir}!`);
+			} else {
+				throw err;
+			}
+		}
 	});
 };
+// Title for macro testFile (see title for macro with AVA)
+testFile.title = (providedTitle, fileName) => `Test file ${fileName}: ${providedTitle}`;
 
+// Removing output test files before all tests
 test.before.cb('Cleanup', t => {
-	// Removing output test files
 	rimraf(outputDir, err => {
 		if (err) {
-			console.log(err);
+			t.fail(err);
 		}
 		t.end();
 	});
 });
 
+// Removing output test files after all tests
 test.after.cb('Cleanup', t => {
-	// Removing output test files
 	rimraf(outputDir, err => {
 		if (err) {
-			console.log(err);
+			t.fail(err);
 		}
 		t.end();
 	});
 });
 
+// Check basic case pass
 test('If basic case pass', t => {
-	const markdownPath = path.join(__dirname, 'fixtures', 'original', 'basic.md');
+	const markdownPath = path.join(originalDir, 'basic.md');
 	const config = {
 		outputDir,
 		transforms: {
@@ -57,26 +69,16 @@ test('If basic case pass', t => {
 	t.pass();
 });
 
-testCase('With option prop=name', 'basic.md', 'bad name');
-
-testCase('Without option', 'without-option.md', 'name should be unknown');
-
-testCase('With prop unknown', 'unknown-prop.md', 'name should be unknown');
-
-testCase('With prop unknown and unknownTxt=TODO', 'unknown-text.md', 'the return should be unknownTxt option');
-
-testCase('With only unknownTxt=TODO', 'unknown-text-only.md', 'the return should be unknownTxt option');
-
-testCase('With deep property', 'deep-property.md', 'name should be this fixture package.json');
-
-testCase('With before option', 'before.md', 'name should be preceded by before option');
-
-testCase('With after option', 'after.md', 'name should be followed by after option');
-
-testCase('With option prop=name&pkg=./test/fixtures', 'path-package-json.md', 'name should be this fixture package.json');
-
-testCase('With option prop=name&pkg=./test', 'unknown-path-package-json.md', 'name should be undefined');
-
-testCase('With option prop=name&pkg=./test', 'go-to-package-json.md', 'name should be this root package.json');
-
-testCase('With news lines', 'news-lines.md', 'new lines should be displayed');
+/*
+* Tests if all the files in the `original` directory after using magic-markdown
+* match those in the `expected` directory
+* (by comparing the files in `output` with those of `expected`)
+*/
+fs.readdir(originalDir, (err, files) => {
+	if (err) {
+		console.log(err);
+	}
+	files.forEach(file => {
+		test(testFile, file);
+	});
+});
