@@ -3,13 +3,14 @@ import fs from 'fs';
 import rimraf from 'rimraf';
 import test from 'ava';
 import markdownMagic from 'markdown-magic';
+import ParseMarkdownMetadata from 'parse-markdown-metadata';
 
 const outputDir = path.join(__dirname, 'fixtures', 'output');
 const originalDir = path.join(__dirname, 'fixtures', 'original');
 const expectedDir = path.join(__dirname, 'fixtures', 'expected');
 
-// Macro testFile (see macro with AVA)
-const testFile = (t, fileName, testMsg) => {
+// Macro test file (see macro with AVA)
+const macroFile = (t, fileName, errorMsg) => {
 	const config = {
 		outputDir,
 		transforms: {
@@ -23,7 +24,7 @@ const testFile = (t, fileName, testMsg) => {
 		}
 		try {
 			const expectedContent = fs.readFileSync(path.join(expectedDir, fileName), 'utf8');
-			t.is(data[0].outputContent, expectedContent, testMsg);
+			t.is(data[0].outputContent, expectedContent, errorMsg);
 		} catch (err) {
 			if (err.code === 'ENOENT') {
 				t.fail(`File ${fileName} not found in ${expectedDir}!`);
@@ -34,7 +35,7 @@ const testFile = (t, fileName, testMsg) => {
 	});
 };
 // Title for macro testFile (see title for macro with AVA)
-testFile.title = (providedTitle, fileName) => `Test file ${fileName}: ${providedTitle}`;
+macroFile.title = (providedTitle, fileName) => `Test file ${fileName}: ${providedTitle}`;
 
 // Removing output test files before all tests
 test.before.cb('Cleanup', t => {
@@ -79,6 +80,15 @@ fs.readdir(originalDir, (err, files) => {
 		console.log(err);
 	}
 	files.forEach(file => {
-		test(testFile, file);
+		let source;
+		try {
+			source = fs.readFileSync(path.join(originalDir, file)).toString();
+		} catch (err) {
+			throw err;
+		}
+		const md = new ParseMarkdownMetadata(source);
+		const title = (md.props.title) ? md.props.title : '';
+		const errMsg = (md.props.error) ? md.props.error : '';
+		test(title, macroFile, file, errMsg);
 	});
 });
