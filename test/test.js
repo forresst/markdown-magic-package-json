@@ -23,8 +23,10 @@ const macroFile = (t, fileName, errorMsg) => {
 			t.fail(err);
 		}
 		try {
-			const expectedContent = fs.readFileSync(path.join(expectedDir, fileName), 'utf8');
-			t.is(data[0].outputContent, expectedContent, errorMsg);
+			const expectedSource = fs.readFileSync(path.join(expectedDir, fileName), 'utf8');
+			const expectedMd = new ParseMarkdownMetadata(expectedSource);
+			const outputMd = new ParseMarkdownMetadata(data[0].outputContent);
+			t.is(outputMd.content, expectedMd.content, errorMsg);
 		} catch (err) {
 			if (err.code === 'ENOENT') {
 				t.fail(`File ${fileName} not found in ${expectedDir}!`);
