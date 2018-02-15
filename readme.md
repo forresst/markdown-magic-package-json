@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.org/forresst/markdown-magic-package-json.svg?branch=master)](https://travis-ci.org/forresst/markdown-magic-package-json)
 [![Build status](https://ci.appveyor.com/api/projects/status/wya3soypuahm6y6s?svg=true)](https://ci.appveyor.com/project/forresst/markdown-magic-package-json)
 [![Coverage Status](https://coveralls.io/repos/github/forresst/markdown-magic-package-json/badge.svg)](https://coveralls.io/github/forresst/markdown-magic-package-json)
-[![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
+[![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/xojs/xo)
 
 > Add the `package.json` properties to markdown files via [markdown-magic](https://github.com/DavidWells/markdown-magic)
 
