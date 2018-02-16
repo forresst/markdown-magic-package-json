@@ -31,7 +31,7 @@ const macroFile = (t, fileName, errorMsg) => {
 			if (err.code === 'ENOENT') {
 				t.fail(`File ${fileName} not found in ${expectedDir}!`);
 			} else {
-				throw err;
+				t.fail(err);
 			}
 		}
 	});
@@ -77,20 +77,15 @@ test('If basic case pass', t => {
 * match those in the `expected` directory
 * (by comparing the files in `output` with those of `expected`)
 */
-fs.readdir(originalDir, (err, files) => {
-	if (err) {
-		console.log(err);
+fs.readdirSync(originalDir).forEach(file => {
+	let source;
+	try {
+		source = fs.readFileSync(path.join(originalDir, file)).toString();
+	} catch (err) {
+		throw err;
 	}
-	files.forEach(file => {
-		let source;
-		try {
-			source = fs.readFileSync(path.join(originalDir, file)).toString();
-		} catch (err) {
-			throw err;
-		}
-		const md = new ParseMarkdownMetadata(source);
-		const title = (md.props.title) ? md.props.title : '';
-		const errMsg = (md.props.error) ? md.props.error : '';
-		test(title, macroFile, file, errMsg);
-	});
+	const md = new ParseMarkdownMetadata(source);
+	const title = (md.props.title) ? md.props.title : '';
+	const errMsg = (md.props.error) ? md.props.error : '';
+	test(title, macroFile, file, errMsg);
 });
