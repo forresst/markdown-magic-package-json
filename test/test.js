@@ -11,7 +11,7 @@ const expectedDir = path.join(__dirname, 'fixtures', 'expected');
 
 // Macro test file (see macro with AVA)
 const macroFile = (t, fileName, errorMsg) => {
-	// init config markdown-magic
+	// Init config markdown-magic
 	const config = {
 		outputDir,
 		transforms: {
