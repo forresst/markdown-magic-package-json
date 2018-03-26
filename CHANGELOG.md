@@ -23,7 +23,7 @@
 
 ### BREAKING CHANGES
 
-* **template:** The following options has been deprecated in favor of `template`. **They will be removed from version 2.0.0 and later**. See the [guide](docs\guide-switch-to-template-option.md) to use `template` instead :
+* **template:** The following options has been deprecated in favor of `template`. **They will be removed from version 2.0.0 and later**. See the [guide](docs/guide-switch-to-template-option.md) to use `template` instead :
    * **prop** - any property in package.json (like `name`, `version`, `scripts.test`, ...)
    * **before** (empty by default) - string to add **before** prop
    * **after** (empty by default) - string to add **after** prop
