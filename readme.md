@@ -19,6 +19,7 @@
   * [Unknown property](#unknown-property)
   * [Deep property](#deep-property)
   * [With news lines and tabulations](#with-news-lines-and-tabulations)
+  * [Repeated properties](#repeated-properties)
 - [License](#license)
 <!-- AUTO-GENERATED-CONTENT:END -->
 
@@ -50,11 +51,14 @@ markdownMagic(markdownPath, config);
 
 ## Options
 
-* **prop** - any property in package.json (like `name`, `version`, `scripts.test`, ...)
-* **before** (empty by default) - string to add **before** prop
-* **after** (empty by default) - string to add **after** prop
+* **template** - string with placeholders like Template literals. These placeholders are indicated by the dollar sign and curly braces (`${property}`). For example, if we want to retrieve the `name` property in the package.json, we can write this: `${name}`. See more examples in the section [Usage in markdown](#usage-in-markdown).
 * **pkg** (`package.json` in ancestor's dir by default) - `package.json` path. If the path is incorrect, the plugin find `package.json` in ancestor's dir
 * **UnknownTxt** (undefined by default) - string to add if the `prop` is unknown
+
+> WARNING: The following options has been deprecated in favor of `template`. **They will be removed from version 2.0.0 and later**. See the [guide](docs\guide-switch-to-template-option.md) to use `template` instead :
+>* **prop** - any property in package.json (like `name`, `version`, `scripts.test`, ...)
+>* **before** (empty by default) - string to add **before** prop
+>* **after** (empty by default) - string to add **after** prop
 
 ## Usage in markdown
 
@@ -63,7 +67,7 @@ markdownMagic(markdownPath, config);
 Here is a first example to display the `name` property inside `package.json`:
 
 ```markdown
-<!-- AUTO-GENERATED-CONTENT:START (PKGJSON:prop=name) -->
+<!-- AUTO-GENERATED-CONTENT:START (PKGJSON:template=${name}) -->
 markdown-magic-package-json
 <!-- AUTO-GENERATED-CONTENT:END -->
 ```
@@ -73,7 +77,7 @@ markdown-magic-package-json
 Here is an example with most options:
 
 ```markdown
-<!-- AUTO-GENERATED-CONTENT:START (PKGJSON:prop=name&before=### &after= is very useful !&pkg=tests) -->
+<!-- AUTO-GENERATED-CONTENT:START (PKGJSON:template=### ${name} is very useful !&pkg=tests) -->
 ### markdown-magic-package-json is very useful !
 <!-- AUTO-GENERATED-CONTENT:END -->
 ```
@@ -83,7 +87,7 @@ Here is an example with most options:
 In this example, the property does not exist in `package.json`:
 
 ```markdown
-<!-- AUTO-GENERATED-CONTENT:START (PKGJSON:prop=foo) -->
+<!-- AUTO-GENERATED-CONTENT:START (PKGJSON:template=${foo}) -->
 undefined
 <!-- AUTO-GENERATED-CONTENT:END -->
 ```
@@ -91,7 +95,7 @@ undefined
 Please note in this case the value unknown is replaced by `undefined`. You can change `undefined` by a value of your choice using the option `unknownTxt` as below:
 
 ```markdown
-<!-- AUTO-GENERATED-CONTENT:START (PKGJSON:prop=foo&unknownTxt=##TODO##) -->
+<!-- AUTO-GENERATED-CONTENT:START (PKGJSON:template=${foo}&unknownTxt=##TODO##) -->
 ##TODO##
 <!-- AUTO-GENERATED-CONTENT:END -->
 ```
@@ -101,7 +105,7 @@ Please note in this case the value unknown is replaced by `undefined`. You can c
 To retrieve a deep property (for example `repository.type`):
 
 ```markdown
-<!-- AUTO-GENERATED-CONTENT:START (PKGJSON:prop=repository.type) -->
+<!-- AUTO-GENERATED-CONTENT:START (PKGJSON:template=${repository.type}) -->
 git
 <!-- AUTO-GENERATED-CONTENT:END -->
 ```
@@ -111,7 +115,7 @@ git
 To the layout, use characters for new line (`\n`) or tabulation (`\t`):
 
 ```markdown
-<!-- AUTO-GENERATED-CONTENT:START (PKGJSON:prop=name&before=# Hello World\n\nThe package: &after=\n\n\tIt is useful!\n\nVery useful!!!) -->
+<!-- AUTO-GENERATED-CONTENT:START (PKGJSON:template=# Hello World\n\nThe package: ${name}\n\n\tIt is useful!\n\nVery useful!!!) -->
 # Hello World
 
 The package: markdown-magic-package-json
@@ -119,6 +123,18 @@ The package: markdown-magic-package-json
 	It is useful!
 
 Very useful!!!
+<!-- AUTO-GENERATED-CONTENT:END -->
+```
+
+### Repeated properties
+
+You can repeat the same property multiple times:
+
+```markdown
+<!-- AUTO-GENERATED-CONTENT:START (PKGJSON:template=Name: ${name}\nLicense: ${license}\n${name} has the ${license} license) -->
+Name: markdown-magic-package-json
+License: MIT
+markdown-magic-package-json has the MIT license
 <!-- AUTO-GENERATED-CONTENT:END -->
 ```
 

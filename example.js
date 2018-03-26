@@ -9,5 +9,5 @@ const config = {
 	}
 };
 
-const markdownPath = path.join(__dirname, 'README.md');
-markdownMagic(markdownPath, config);
+markdownMagic(path.join(__dirname, 'README.md'), config);
+markdownMagic(path.join(__dirname, 'docs', 'guide-switch-to-template-option.md'), config);
