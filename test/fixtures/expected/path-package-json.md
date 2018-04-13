@@ -1,3 +1,3 @@
 <!-- AUTO-GENERATED-CONTENT:START (PKGJSON:prop=name&pkg=./test/fixtures) -->
-markdown-magic-package-jso2
+undefined
 <!-- AUTO-GENERATED-CONTENT:END -->

@@ -4,6 +4,7 @@ import rimraf from 'rimraf';
 import test from 'ava';
 import markdownMagic from 'markdown-magic';
 import ParseMarkdownMetadata from 'parse-markdown-metadata';
+import {findPathPkg, getJsonPkg, getDeepAccessProp} from '../index';
 
 const outputDir = path.join(__dirname, 'fixtures', 'output');
 const originalDir = path.join(__dirname, 'fixtures', 'original');
@@ -72,6 +73,94 @@ test.after.cb('Cleanup', t => {
 		}
 		t.end();
 	});
+});
+
+test('findPathPkg without given path', t => {
+	const pathExpected = path.join(process.cwd(), 'package.json');
+	const pathPkg = findPathPkg();
+	t.is(pathPkg, pathExpected, 'The path default should be process.cwd(): ' + process.cwd());
+});
+
+test('getJsonPkg without given path', t => {
+	const json = getJsonPkg();
+	const jsonExpected = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json'), 'utf8'));
+	t.deepEqual(json, jsonExpected, 'The JSON package object should be the package.json root');
+});
+
+test('findPathPkg with given path (path with package.json file)', t => {
+	const pathExpected = path.join(__dirname, 'fixtures', 'package.json');
+	const pathPkg = findPathPkg(path.join(__dirname, 'fixtures'));
+	t.is(pathPkg, pathExpected, 'The path default should be: ' + path.join(__dirname, 'fixtures'));
+});
+
+test('getJsonPkg with given path (path with package.json file)', t => {
+	const pathPkgFixtures = path.join(__dirname, 'fixtures', 'package.json');
+	const json = getJsonPkg(pathPkgFixtures);
+	const jsonExpected = JSON.parse(fs.readFileSync(pathPkgFixtures), 'utf8');
+	t.deepEqual(json, jsonExpected, 'The JSON package object should be the package.json fixtures (' + pathPkgFixtures + ')');
+});
+
+test('findPathPkg with wrong ancestor path', t => {
+	const pathExpected = undefined;
+	const pathPkg = findPathPkg('../wrong');
+	t.is(pathPkg, pathExpected, 'The path default should be `undefined`');
+});
+
+test('getJsonPkg without undefined path', t => {
+	const pathUndefined = undefined;
+	const json = getJsonPkg(pathUndefined);
+	const jsonExpected = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json'), 'utf8'));
+	t.deepEqual(json, jsonExpected, 'The JSON package object should be the package.json root');
+});
+
+test('findPathPkg with wrong child path (path without package.json file)', t => {
+	const pathExpected = path.join(process.cwd(), 'package.json');
+	const pathPkg = findPathPkg(path.join(__dirname, 'wrong'));
+	t.is(pathPkg, pathExpected, 'The path default should be package.json in ancestor dir: ' + process.cwd());
+});
+
+test('getJsonPkg with wrong child path (path without package.json file)', t => {
+	const json = getJsonPkg(path.join(__dirname, 'wrong'));
+	const jsonExpected = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json'), 'utf8'));
+	t.deepEqual(json, jsonExpected, 'The JSON package object should be the package.json root');
+});
+
+test('getDeepAccessProp with known property (name)', t => {
+	const json = getJsonPkg();
+	const value = getDeepAccessProp(json, 'name');
+	t.is(value, 'markdown-magic-package-json', 'The property value of `name` should be: markdown-magic-package-json');
+});
+
+test('getDeepAccessProp with unknown property', t => {
+	const json = getJsonPkg();
+	const value = getDeepAccessProp(json, 'foo');
+	t.is(value, undefined, 'The value of unknown property should be: undefined');
+});
+
+test('getDeepAccessProp with deep property (repository.type)', t => {
+	const json = getJsonPkg();
+	const value = getDeepAccessProp(json, 'repository.type');
+	t.is(value, 'git', 'The value of `repository.type` should be: git');
+});
+
+test('getDeepAccessProp with very deep property (obj.foo.bar)', t => {
+	const json = getJsonPkg(path.join(__dirname, 'fixtures', 'package.json'));
+	const value = getDeepAccessProp(json, 'obj.foo.bar');
+	t.is(value, 'foobar', 'The value of `obj.foo.bar` should be: foobar');
+});
+
+test('getDeepAccessProp with property (obj) that is a object', t => {
+	const json = getJsonPkg(path.join(__dirname, 'fixtures', 'package.json'));
+	const value = getDeepAccessProp(json, 'obj');
+	const valueExpected = {foo: {bar: 'foobar'}};
+	t.deepEqual(value, valueExpected, 'The value of `obj` should be: {foo: {bar: \'foobar\'}}');
+});
+
+test('getDeepAccessProp with property (arr) that is a array', t => {
+	const json = getJsonPkg(path.join(__dirname, 'fixtures', 'package.json'));
+	const value = getDeepAccessProp(json, 'arr');
+	const valueExpected = ['foo', 'bar'];
+	t.deepEqual(value, valueExpected, 'The value of `arr` should be: [\'foo\', \'bar\']');
 });
 
 // Check basic case pass

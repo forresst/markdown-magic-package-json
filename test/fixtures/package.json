@@ -1,4 +1,13 @@
 {
 	"name": "markdown-magic-package-jso2",
+	"obj": {
+		"foo": {
+			"bar": "foobar"
+		}
+	},
+	"arr": [
+		"foo",
+		"bar"
+	],
 	"version": "0.0.0"
 }

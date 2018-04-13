@@ -1,4 +1,4 @@
-<!-- AUTO-GENERATED-CONTENT:START (PKGJSON:prop=name&before=# ) -->
+<!-- AUTO-GENERATED-CONTENT:START (PKGJSON:template=# ${name}) -->
 # markdown-magic-package-json
 <!-- AUTO-GENERATED-CONTENT:END -->
 
@@ -55,7 +55,7 @@ markdownMagic(markdownPath, config);
 * **pkg** (`package.json` in ancestor's dir by default) - `package.json` path. If the path is incorrect, the plugin find `package.json` in ancestor's dir
 * **UnknownTxt** (undefined by default) - string to add if the `prop` is unknown
 
-> WARNING: The following options has been deprecated in favor of `template`. **They will be removed from version 2.0.0 and later**. See the [guide](docs/guide-switch-to-template-option.md) to use `template` instead :
+> **WARNING: The following options has been deprecated in favor of `template`. They are removed from version 2.0.0 and later**. See the [guide](docs/guide-switch-to-template-option.md) to use `template` instead :
 >* **prop** - any property in package.json (like `name`, `version`, `scripts.test`, ...)
 >* **before** (empty by default) - string to add **before** prop
 >* **after** (empty by default) - string to add **after** prop

@@ -1,3 +1,3 @@
 <!-- AUTO-GENERATED-CONTENT:START (PKGJSON:prop=name) -->
-markdown-magic-package-json
+undefined
 <!-- AUTO-GENERATED-CONTENT:END -->

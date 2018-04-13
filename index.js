@@ -10,7 +10,7 @@ const findup = require('findup');
  * Note: The search is always done in the ancestors of the file tree
  *
  * @param {string} [dir=process.cwd()] Path where the file search starts
- * @returns {string} package.json's path or undefined if not found
+ * @returns {string} Package.json's path or undefined if not found
  */
 const findPathPkg = (dir = process.cwd()) => {
 	try {
@@ -37,7 +37,7 @@ const getJsonPkg = pathSearchStart => {
 };
 
 /**
- * Return the property from object via a string key
+ * Return the property value from object via a string key
  *
  * For example:
  *
@@ -50,9 +50,9 @@ const getJsonPkg = pathSearchStart => {
  *
  * getDeepAccessProp(obj, 'child.b'); // -> 'Value b'
  *
- * @param {Object} obj
- * @param {string} key
- * @returns {Object} property
+ * @param {Object} obj A object
+ * @param {string} key A key
+ * @returns {Object} The property value of key in obj
  */
 const getDeepAccessProp = (obj, key) => {
 	return key.split('.').reduce((nestedObject, key) => {
@@ -66,65 +66,40 @@ const getDeepAccessProp = (obj, key) => {
 /**
  * Plugin markdown-magic-package-json
  *
- * @param {string} content content before transformation
- * @param {Object} options options passed to the transform
- * @param {string} [options.template] string with placeholders like Template literals. For example, if we want to retrieve the `name` property in the package.json, we can write this: `${name}`
- * @param {string} [options.unknownTxt] string to add if the property is unknown
+ * @param {string} content Content before transformation
+ * @param {Object} options Options passed to the transform
+ * @param {string} [options.template] String with placeholders like Template literals. For example, if we want to retrieve the `name` property in the package.json, we can write this: `${name}`
+ * @param {string} [options.unknownTxt] String to add if the property is unknown
  * @param {string} [options.pkg] `package.json` path. If the path is incorrect, the plugin find `package.json` in ancestor's dir
- * @param {string} [options.prop] DEPRECATED any property in package.json (like `name`, `version`, `scripts.test`, ...)
- * @param {string} [options.before] DEPRECATED string to add before the property
- * @param {string} [options.after] DEPRECATED string to add after the property
- * @param {Object} [config] markdown-magic configuration object
- * @returns {string} content modified
+ * @param {Object} config markdown-magic configuration object
+ * @returns {string} Content modified
  */
 module.exports = (content, options, config) => {
 	if (!options) {
 		options = {};
 	}
 
-	const jsonPkg = getJsonPkg(options.pkg, config);
-	let updatedContent;
+	let updatedContent = 'undefined';
+
+	if (options.unknownTxt) {
+		updatedContent = options.unknownTxt;
+	}
+
 	if (options.template) {
-		const reg = new RegExp('(?:\\$\\{(\\w+(?:\\.\\w+)?)\\})', 'gi');
 		updatedContent = options.template;
-		let result;
-		while ((result = reg.exec(options.template)) !== null) {
-			const placeholder = result[0];
-			const match = result[1];
-			if (options.unknownTxt && getDeepAccessProp(jsonPkg, match) === undefined) {
-				updatedContent = updatedContent.replace(placeholder, options.unknownTxt);
-			} else {
-				updatedContent = updatedContent.replace(placeholder, getDeepAccessProp(jsonPkg, match));
-			}
-		}
-	} else {
-		let warningMsg = false;
-		if (options.before) {
-			warningMsg = true;
+	}
+
+	let result;
+	const reg = new RegExp('(?:\\$\\{(\\w+(?:\\.\\w+)?)\\})', 'gi');
+	const jsonPkg = getJsonPkg(options.pkg, config);
+	while ((result = reg.exec(options.template)) !== null) {
+		const placeholder = result[0];
+		const match = result[1];
+		if (options.unknownTxt && getDeepAccessProp(jsonPkg, match) === undefined) {
+			updatedContent = updatedContent.replace(placeholder, options.unknownTxt);
 		} else {
-			options.before = '';
+			updatedContent = updatedContent.replace(placeholder, getDeepAccessProp(jsonPkg, match));
 		}
-
-		if (options.after) {
-			warningMsg = true;
-		} else {
-			options.after = '';
-		}
-
-		let prop;
-		if (options.prop) {
-			prop = getDeepAccessProp(jsonPkg, options.prop);
-			warningMsg = true;
-		}
-
-		if (prop === undefined && options.unknownTxt) {
-			prop = options.unknownTxt;
-		}
-
-		if (warningMsg) {
-			console.warn('markdown-magic-package-json: `prop`, `before` and `after` options has been deprecated in favor of `template`');
-		}
-		updatedContent = `${options.before}${prop}${options.after}`;
 	}
 
 	return updatedContent
@@ -134,3 +109,7 @@ module.exports = (content, options, config) => {
 		.replace(/\\b/g, '\b')
 		.replace(/\\f/g, '\f');
 };
+
+module.exports.findPathPkg = findPathPkg;
+module.exports.getJsonPkg = getJsonPkg;
+module.exports.getDeepAccessProp = getDeepAccessProp;
