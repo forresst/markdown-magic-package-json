@@ -1,3 +1,21 @@
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/forresst/markdown-magic-package-json/compare/1.1.0...2.0.0) (2018-04-13)
+
+
+### Features
+
+* **template:** remove `prop`, `before` and `after` options ([d3b394b](https://github.com/forresst/markdown-magic-package-json/commit/d3b394b))
+
+
+### BREAKING CHANGES
+
+* **template:** The following options has been removed in favor of `template`. They are removed from version 2.0.0 and later. See the [guide](docs/guide-switch-to-template-option.md) to use `template` instead :
+* **prop** - any property in package.json (like `name`, `version`, `scripts.test`, ...)
+* **before** (empty by default) - string to add **before** prop
+* **after** (empty by default) - string to add **after** prop
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/forresst/markdown-magic-package-json/compare/1.0.2...1.1.0) (2018-03-26)
 
