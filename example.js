@@ -5,7 +5,7 @@ const markdownMagic = require('markdown-magic');
 
 const config = {
 	transforms: {
-		PKGJSON: require('./index.js')
+		PKGJSON: require('.')
 	}
 };
 

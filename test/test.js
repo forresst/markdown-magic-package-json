@@ -4,7 +4,7 @@ import rimraf from 'rimraf';
 import test from 'ava';
 import markdownMagic from 'markdown-magic';
 import ParseMarkdownMetadata from 'parse-markdown-metadata';
-import {findPathPkg, getJsonPkg, getDeepAccessProp} from '../index';
+import {findPathPkg, getJsonPkg, getDeepAccessProp} from '..';
 
 const outputDir = path.join(__dirname, 'fixtures', 'output');
 const originalDir = path.join(__dirname, 'fixtures', 'original');
@@ -18,7 +18,7 @@ const macroFile = (t, fileName, errorMsg) => {
 		outputDir,
 		// Custom commands to transform block contents: PKGJSON call ../index.js
 		transforms: {
-			PKGJSON: require('../index')
+			PKGJSON: require('..')
 		}
 	};
 
@@ -169,7 +169,7 @@ test('If basic case pass', t => {
 	const config = {
 		outputDir,
 		transforms: {
-			PKGJSON: require('../index')
+			PKGJSON: require('..')
 		}
 	};
 	markdownMagic(markdownPath, config);
