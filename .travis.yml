@@ -3,5 +3,8 @@ node_js:
   - 9
   - 8
   - 6
+before_install:
+  - npm install --global npm@6.1.0
+  - npm --version
 after_script:
 - 'cat coverage/lcov.info | ./node_modules/.bin/coveralls'
