@@ -41,13 +41,13 @@ const macroFile = (t, fileName, errorMsg) => {
 			const outputMd = new ParseMarkdownMetadata(data[0].outputContent);
 			// Comparison between the output file and the expected file
 			t.is(outputMd.content, expectedMd.content, errorMsg);
-		} catch (err) {
+		} catch (error) {
 			// The expected file doesn't exist
-			if (err.code === 'ENOENT') {
+			if (error.code === 'ENOENT') {
 				t.fail(`File ${fileName} not found in ${expectedDir}!`);
 			// Others errors
 			} else {
-				t.fail(err);
+				t.fail(error);
 			}
 		}
 	});
@@ -183,8 +183,8 @@ fs.readdirSync(originalDir).forEach(file => {
 	let source;
 	try {
 		source = fs.readFileSync(path.join(originalDir, file)).toString();
-	} catch (err) {
-		throw err;
+	} catch (error) {
+		throw error;
 	}
 	const md = new ParseMarkdownMetadata(source);
 	const title = (md.props.title) ? md.props.title : '';

@@ -15,7 +15,7 @@ const findup = require('findup');
 const findPathPkg = (dir = process.cwd()) => {
 	try {
 		return path.join(findup.sync(path.resolve(process.cwd(), dir), 'package.json'), 'package.json');
-	} catch (err) {
+	} catch (error) {
 		return undefined;
 	}
 };
