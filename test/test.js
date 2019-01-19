@@ -31,6 +31,7 @@ const macroFile = (t, fileName, errorMsg) => {
 		if (err) {
 			t.fail(err);
 		}
+
 		// Comparison between the output file and the expected file
 		try {
 			// Reading the expected file
@@ -52,6 +53,7 @@ const macroFile = (t, fileName, errorMsg) => {
 		}
 	});
 };
+
 // Title for macro testFile (see title for macro with AVA)
 macroFile.title = (providedTitle, fileName) => `Test file ${fileName}: ${providedTitle}`;
 
@@ -61,6 +63,7 @@ test.before.cb('Cleanup', t => {
 		if (err) {
 			t.fail(err);
 		}
+
 		t.end();
 	});
 });
@@ -71,6 +74,7 @@ test.after.cb('Cleanup', t => {
 		if (err) {
 			t.fail(err);
 		}
+
 		t.end();
 	});
 });
@@ -186,6 +190,7 @@ fs.readdirSync(originalDir).forEach(file => {
 	} catch (error) {
 		throw error;
 	}
+
 	const md = new ParseMarkdownMetadata(source);
 	const title = (md.props.title) ? md.props.title : '';
 	const errMsg = (md.props.error) ? md.props.error : '';

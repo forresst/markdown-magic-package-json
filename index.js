@@ -33,6 +33,7 @@ const getJsonPkg = pathSearchStart => {
 	if (pkgPath) {
 		contentJson = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
 	}
+
 	return contentJson;
 };
 
@@ -59,6 +60,7 @@ const getDeepAccessProp = (obj, key) => {
 		if (nestedObject && key in nestedObject) {
 			return nestedObject[key];
 		}
+
 		return undefined;
 	}, obj);
 };
