@@ -1,3 +1,12 @@
+<a name="2.0.1"></a>
+# [2.0.1](https://github.com/forresst/markdown-magic-package-json/compare/2.0.0...2.0.1) (2018-08-23)
+
+### Chore
+
+* Bump dependencies
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/forresst/markdown-magic-package-json/compare/1.1.0...2.0.0) (2018-04-13)
 
