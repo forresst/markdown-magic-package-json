@@ -1,9 +1,8 @@
 language: node_js
 node_js:
-  - 11
+  - 12
   - 10
   - 8
-  - 6
 cache: npm
 before_install: if [[ "$(npm -v)" != "6.6.0" ]]; then npm install --global npm@6.6.0; fi
 after_success:
