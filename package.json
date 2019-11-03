@@ -47,7 +47,7 @@
 		"nyc": "^14.1.1",
 		"parse-markdown-metadata": "^1.0.8",
 		"rimraf": "^3.0.0",
-		"xo": "^0.24.0"
+		"xo": "^0.25.3"
 	},
 	"nyc": {
 		"reporter": [
