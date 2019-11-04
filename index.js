@@ -15,7 +15,7 @@ const findup = require('findup');
 const findPathPkg = (dir = process.cwd()) => {
 	try {
 		return path.join(findup.sync(path.resolve(process.cwd(), dir), 'package.json'), 'package.json');
-	} catch (error) {
+	} catch {
 		return undefined;
 	}
 };
@@ -92,7 +92,7 @@ module.exports = (content, options, config) => {
 	}
 
 	let result;
-	const reg = new RegExp('(?:\\$\\{(\\w+(?:\\.\\w+)?)\\})', 'gi');
+	const reg = /(?:\$\{(\w+(?:\.\w+)?)\})/gi;
 	const jsonPkg = getJsonPkg(options.pkg, config);
 	while ((result = reg.exec(options.template)) !== null) {
 		const placeholder = result[0];
