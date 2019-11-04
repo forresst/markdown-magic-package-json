@@ -92,7 +92,7 @@ module.exports = (content, options, config) => {
 	}
 
 	let result;
-	const reg = /(?:\$\{(\w+(?:\.\w+)?)\})/gi;
+	const reg = new RegExp(/(?:\$\{(\w+(?:\.\w+)?)\})/, 'gi');
 	const jsonPkg = getJsonPkg(options.pkg, config);
 	while ((result = reg.exec(options.template)) !== null) {
 		const placeholder = result[0];
