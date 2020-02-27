@@ -185,7 +185,7 @@ test('If basic case pass', t => {
 // match those in the `expected` directory
 // (by comparing the files in `output` with those of `expected`)
 fs.readdirSync(originalDir).forEach(file => {
-	const source = fs.readFileSync(path.join(originalDir, file)).toString();
+	const source = fs.readFileSync(path.join(originalDir, file), 'utf8').toString();
 	const md = new ParseMarkdownMetadata(source);
 	const title = (md.props.title) ? md.props.title : '';
 	const errMsg = (md.props.error) ? md.props.error : '';
