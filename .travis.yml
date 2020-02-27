@@ -1,9 +1,0 @@
-language: node_js
-node_js:
-  - 12
-  - 10
-  - 8
-cache: npm
-before_install: if [[ "$(npm -v)" != "6.6.0" ]]; then npm install --global npm@6.6.0; fi
-after_success:
-- 'cat coverage/lcov.info | ./node_modules/.bin/coveralls'
