@@ -1,10 +1,11 @@
-import path from 'path';
-import fs from 'fs';
-import rimraf from 'rimraf';
-import test from 'ava';
-import markdownMagic from 'markdown-magic';
-import ParseMarkdownMetadata from 'parse-markdown-metadata';
-import {findPathPkg, getJsonPkg, getDeepAccessProp} from '..';
+'use strict';
+const path = require('path');
+const fs = require('fs');
+const rimraf = require('rimraf');
+const test = require('ava');
+const markdownMagic = require('markdown-magic');
+const ParseMarkdownMetadata = require('parse-markdown-metadata');
+const {findPathPkg, getJsonPkg, getDeepAccessProp} = require('..');
 
 const outputDir = path.join(__dirname, 'fixtures', 'output');
 const originalDir = path.join(__dirname, 'fixtures', 'original');
@@ -184,13 +185,7 @@ test('If basic case pass', t => {
 // match those in the `expected` directory
 // (by comparing the files in `output` with those of `expected`)
 fs.readdirSync(originalDir).forEach(file => {
-	let source;
-	try {
-		source = fs.readFileSync(path.join(originalDir, file)).toString();
-	} catch (error) {
-		throw error;
-	}
-
+	const source = fs.readFileSync(path.join(originalDir, file)).toString();
 	const md = new ParseMarkdownMetadata(source);
 	const title = (md.props.title) ? md.props.title : '';
 	const errMsg = (md.props.error) ? md.props.error : '';
