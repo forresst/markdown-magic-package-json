@@ -39,7 +39,7 @@
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^8.1.0",
-		"@commitlint/config-conventional": "^8.1.0",
+		"@commitlint/config-conventional": "^11.0.0",
 		"ava": "^3.4.0",
 		"coveralls": "^3.0.6",
 		"husky": "^4.2.3",
