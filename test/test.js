@@ -12,7 +12,7 @@ const originalDir = path.join(__dirname, 'fixtures', 'original');
 const expectedDir = path.join(__dirname, 'fixtures', 'expected');
 
 // Macro test file (see macro with AVA)
-const macroFile = (t, fileName, errorMsg) => {
+const macroFile = (t, fileName, errorMessage) => {
 	// Init config markdown-magic
 	const config = {
 		// Change output path of new content to outputDir: \test\fixtures\output\
@@ -27,10 +27,10 @@ const macroFile = (t, fileName, errorMsg) => {
 	// - original file path: path.join(originalDir, fileName)
 	// - configuration markdown-magic: config
 	// - callback to run after markdown updates: (err, data) => { ... }
-	markdownMagic(path.join(originalDir, fileName), config, (err, data) => {
+	markdownMagic(path.join(originalDir, fileName), config, (error, data) => {
 		// An error occurred while calling markdown-magic
-		if (err) {
-			t.fail(err);
+		if (error) {
+			t.fail(error);
 		}
 
 		// Comparison between the output file and the expected file
@@ -42,7 +42,7 @@ const macroFile = (t, fileName, errorMsg) => {
 			// Parse the output file (ParseMarkdownMetadata remove metadata in outputMd.content)
 			const outputMd = new ParseMarkdownMetadata(data[0].outputContent);
 			// Comparison between the output file and the expected file
-			t.is(outputMd.content, expectedMd.content, errorMsg);
+			t.is(outputMd.content, expectedMd.content, errorMessage);
 		} catch (error) {
 			// The expected file doesn't exist
 			if (error.code === 'ENOENT') {
@@ -60,9 +60,9 @@ macroFile.title = (providedTitle, fileName) => `Test file ${fileName}: ${provide
 
 // Removing output test files before all tests
 test.before.cb('Cleanup', t => {
-	rimraf(outputDir, err => {
-		if (err) {
-			t.fail(err);
+	rimraf(outputDir, error => {
+		if (error) {
+			t.fail(error);
 		}
 
 		t.end();
@@ -71,9 +71,9 @@ test.before.cb('Cleanup', t => {
 
 // Removing output test files after all tests
 test.after.cb('Cleanup', t => {
-	rimraf(outputDir, err => {
-		if (err) {
-			t.fail(err);
+	rimraf(outputDir, error => {
+		if (error) {
+			t.fail(error);
 		}
 
 		t.end();
@@ -184,10 +184,10 @@ test('If basic case pass', t => {
 // Tests if all the files in the `original` directory after using magic-markdown
 // match those in the `expected` directory
 // (by comparing the files in `output` with those of `expected`)
-fs.readdirSync(originalDir).forEach(file => {
+for (const file of fs.readdirSync(originalDir)) {
 	const source = fs.readFileSync(path.join(originalDir, file), 'utf8').toString();
 	const md = new ParseMarkdownMetadata(source);
 	const title = (md.props.title) ? md.props.title : '';
-	const errMsg = (md.props.error) ? md.props.error : '';
-	test(title, macroFile, file, errMsg);
-});
+	const errorMessage = (md.props.error) ? md.props.error : '';
+	test(title, macroFile, file, errorMessage);
+}

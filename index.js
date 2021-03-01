@@ -15,7 +15,7 @@ const findup = require('findup');
 const findPathPkg = (dir = process.cwd()) => {
 	try {
 		return path.join(findup.sync(path.resolve(process.cwd(), dir), 'package.json'), 'package.json');
-	} catch (_) {
+	} catch {
 		return undefined;
 	}
 };
@@ -55,14 +55,15 @@ const getJsonPkg = pathSearchStart => {
  * @param {string} key A key
  * @returns {Object} The property value of key in obj
  */
-const getDeepAccessProp = (obj, key) => {
+const getDeepAccessProp = (object, key) => {
+	// eslint-disable-next-line unicorn/no-array-reduce
 	return key.split('.').reduce((nestedObject, key) => {
 		if (nestedObject && key in nestedObject) {
 			return nestedObject[key];
 		}
 
 		return undefined;
-	}, obj);
+	}, object);
 };
 
 /**
@@ -92,16 +93,12 @@ module.exports = (content, options, config) => {
 	}
 
 	let result;
-	const reg = /(?:\$\{(\w+(?:\.\w+)?)\})/gi;
+	const reg = /(?:\${(\w+(?:\.\w+)?)})/gi;
 	const jsonPkg = getJsonPkg(options.pkg, config);
 	while ((result = reg.exec(options.template)) !== null) {
 		const placeholder = result[0];
 		const match = result[1];
-		if (options.unknownTxt && getDeepAccessProp(jsonPkg, match) === undefined) {
-			updatedContent = updatedContent.replace(placeholder, options.unknownTxt);
-		} else {
-			updatedContent = updatedContent.replace(placeholder, getDeepAccessProp(jsonPkg, match));
-		}
+		updatedContent = options.unknownTxt && getDeepAccessProp(jsonPkg, match) === undefined ? updatedContent.replace(placeholder, options.unknownTxt) : updatedContent.replace(placeholder, getDeepAccessProp(jsonPkg, match));
 	}
 
 	return updatedContent
