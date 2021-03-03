@@ -43,7 +43,7 @@
 		"ava": "^3.4.0",
 		"coveralls": "^3.0.6",
 		"husky": "^4.2.3",
-		"markdown-magic": "^1.0.0",
+		"markdown-magic": "^2.0.0",
 		"nyc": "^15.0.0",
 		"parse-markdown-metadata": "^1.0.8",
 		"rimraf": "^3.0.0",
