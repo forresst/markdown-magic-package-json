@@ -38,7 +38,7 @@
 		"findup": "^0.1.5"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^12.0.1",
+		"@commitlint/cli": "^14.1.0",
 		"@commitlint/config-conventional": "^12.0.1",
 		"ava": "^3.4.0",
 		"coveralls": "^3.0.6",
